@@ -20,15 +20,19 @@ public class EcommerceApplication {
 	@Bean
 	public CommandLineRunner demo(UserRepository userRepository) {
 		return (args) -> {
-			// Sauvegarder John doe dans la base de donnée
-			User johndoe = User.builder()
+			/* Sauvegarder John doe dans la base de donnée*/
+			User john = User.builder()
 					.email("example@example.com")
-					.username("Jonh doe")
+					.username("John doe")
 					.password("123")
 					.createdAt(LocalDateTime.now())
 					.updatedAt(LocalDateTime.now())
 					.build();
-			userRepository.save(johndoe);
+					userRepository.save(john);
+			User jane = new User(null, "Jane Doe", "jane@example.com", "123456",
+					LocalDateTime.now(), LocalDateTime.now());
+			userRepository.save(jane);
 		};
 	}
 }
+

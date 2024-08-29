@@ -54,3 +54,20 @@
 | price             | DECIMAL        | Prix du produit               |
 | created_At        | TIMESTAMP      | date de création              |
 | updated_At        | TIMESTAMP      | date de modification          |
+
+
+` spring.jpa.hibernate.ddl-auto` : 
+Cette propriété est utilisée pour spécifier la stratégie de génération du shéma de la BDD lors du demarrage de l'application .
+Hibernate , l'ORM utilisé par defaut dans Spring Boot , peut automatiquement créer, mettre à jour , valider ou gérer le schema de la bdd en fonction  de cette propriété.
+Voici une explication des differentes valeurs qu'on peut attribuer: 
+
+1.`none`:Désactive la gestion automatique du schema par Hibernate .
+Aucune modification du shema de BDD ne sera effectué au démarrage de l'application .
+
+2.`validate`: Hibernate v
+
+3.`update`
+
+4.`create`
+
+5.`create-drop`
