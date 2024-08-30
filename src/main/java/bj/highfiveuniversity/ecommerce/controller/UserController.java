@@ -12,65 +12,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfiveuniversity.ecommerce.models.User;
-import bj.highfiveuniversity.ecommerce.repository.UserRepository;
+import bj.highfiveuniversity.ecommerce.services.UserService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-              @Autowired
-              private UserRepository userRepository;
-              //Recuperer tout les users
-              @GetMapping 
-              public List<User> getAllUsers(){
-               return userRepository.findAll();
-              }
-              //Recuperer un User pas son id
-              @GetMapping("/{id}")
-              public ResponseEntity<User> getUserById(@PathVariable Long id){
-                              User user = userRepository
-                              .findById(id)
-                              .orElseThrow(
-                                             ()->new RuntimeException("User non trouvé")
-                                             );
+
+               @Autowired
+               private UserService userService;
+
+               @GetMapping
+               public List<User> getAllUsers() {
+                              return userService.getAllUsers();
+               }
+
+               @GetMapping("/{id}")
+               public ResponseEntity<User> getUserById(@PathVariable Long id) {
+                              User user = userService.getUserById(id);
                               return ResponseEntity.ok(user);
-              }
+               }
 
+               @PostMapping
+               public ResponseEntity<User> createUser(@RequestBody User user) {
+                              User newUser = userService.createUser(user);
+                              return ResponseEntity.ok(newUser);
+               }
 
-              //Créer un user
+               @PutMapping("/{id}")
+               public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestParam User user) {
+                              User userToUpdate = userService.updateUser(id, user);
 
-              @PostMapping
-              public ResponseEntity<User> createUser(@RequestBody User user){
-               User newUser = userRepository.save(user);
-               return ResponseEntity.ok(newUser);
-              }
-
-
-              //Modifier 
-
-              @PutMapping("/{id}")
-              public ResponseEntity<User> updateUser(@PathVariable Long id , @RequestParam User user){
-               User userToUpdate = userRepository
-               .findById(id)
-               .orElseThrow(
-                              ()-> new RuntimeException("User avec l'id"+id+"non trouvé")
-                              );
-
-                              userToUpdate.setUsername(user.getUsername());
-                              userToUpdate.setEmail(user.getEmail());
-                              userToUpdate.setPassword(user.getPassword());
                               return ResponseEntity.ok(userToUpdate);
-              }
-              //Supprimer
+               }
 
-              @DeleteMapping("/{id}")
-              public ResponseEntity<Void> deleteUser(@PathVariable Long id  ){
-               userRepository.deleteById(id);
-               return ResponseEntity.noContent().build();
-              }
-              
-              
+               @DeleteMapping("/{id}")
+               public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+                              userService.deleteUser(id);
+                              return ResponseEntity.noContent().build();
+               }
+
 }

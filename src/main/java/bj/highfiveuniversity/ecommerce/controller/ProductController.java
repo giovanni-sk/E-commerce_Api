@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfiveuniversity.ecommerce.models.Product;
-import bj.highfiveuniversity.ecommerce.repository.ProductRepository;
+import bj.highfiveuniversity.ecommerce.services.ProductService;
+
+
 
 /**
  * ProductController
@@ -23,31 +25,29 @@ import bj.highfiveuniversity.ecommerce.repository.ProductRepository;
 @RequestMapping("/api/product")
 
 public class ProductController {
+                 @Autowired
+             private ProductService productService;
 
-              @Autowired
-              private ProductRepository productRepository;
-              //Recuperer tout les Products
+              
+           
               @GetMapping 
               public List<Product> getAllProducts(){
-               return productRepository.findAll();
+               return productService.getAllProducts();
               }
-              //Recuperer un Product pas son id
+        
               @GetMapping("/{id}")
               public ResponseEntity<Product> getProductById(@PathVariable Long id){
-                              Product product = productRepository
-                              .findById(id)
-                              .orElseThrow(
-                                             ()->new RuntimeException("Product non trouvé")
-                                             );
+                              Product product = productService.getProductById(id);
+                            
                               return ResponseEntity.ok(product);
               }
 
 
-              //Créer un Product
+            
 
               @PostMapping
               public ResponseEntity<Product> createProduct(@RequestBody Product product){
-               Product newProduct = productRepository.save(product);
+               Product newProduct = productService.createProduct(product);
                return ResponseEntity.ok(newProduct);
               }
 
@@ -56,22 +56,14 @@ public class ProductController {
 
               @PutMapping("/{id}")
               public ResponseEntity<Product> updateProduct(@PathVariable Long id , @RequestParam Product product){
-               Product productToUpdate = productRepository
-               .findById(id)
-               .orElseThrow(
-                              ()-> new RuntimeException("Product avec l'id"+id+"non trouvé")
-                              );
-
-                              productToUpdate.setName(product.getName());
-                              productToUpdate.setDescription(product.getDescription());
-                              productToUpdate.setCategories(product.getCategories());
+               Product productToUpdate = productService.updateProduct(id, product);
                               return ResponseEntity.ok(productToUpdate);
               }
               //Supprimer
 
               @DeleteMapping("/{id}")
               public ResponseEntity<Void> deleteProduct(@PathVariable Long id  ){
-               productRepository.deleteById(id);
+             productService.deleteProduct(id);
                return ResponseEntity.noContent().build();
               }
               
