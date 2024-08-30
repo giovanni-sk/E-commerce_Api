@@ -1,6 +1,7 @@
 package bj.highfiveuniversity.ecommerce;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +21,7 @@ public class EcommerceApplication {
 	@Bean
 	public CommandLineRunner demo(UserRepository userRepository) {
 		return (args) -> {
-			/* Sauvegarder John doe dans la base de donnée*/
+			/* Sauvegarder John doe dans la base de donnée */
 			User john = User.builder()
 					.email("example@example.com")
 					.username("John doe")
@@ -28,11 +29,13 @@ public class EcommerceApplication {
 					.createdAt(LocalDateTime.now())
 					.updatedAt(LocalDateTime.now())
 					.build();
-					userRepository.save(john);
+
+			userRepository.save(john);
+			
 			User jane = new User(null, "Jane Doe", "jane@example.com", "123456",
-					LocalDateTime.now(), LocalDateTime.now());
+					LocalDateTime.now(), LocalDateTime.now(),
+					new ArrayList<>());
 			userRepository.save(jane);
 		};
 	}
 }
-

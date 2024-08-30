@@ -1,11 +1,13 @@
 package bj.highfiveuniversity.ecommerce.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +38,7 @@ public class User {
                @Id
                @GeneratedValue //id generé automatiquement
                private Long id;
-
+              
                @Column(nullable = false, unique = true)
                private String username;
 
@@ -50,4 +52,7 @@ public class User {
                private LocalDateTime createdAt;
 
                private LocalDateTime updatedAt;
+
+               @OneToMany(mappedBy = "user")
+               private List <Order> orders;
 }
