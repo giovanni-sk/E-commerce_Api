@@ -26,16 +26,31 @@ public class EcommerceApplication {
 					.email("example@example.com")
 					.username("John doe")
 					.password("123")
-					.createdAt(LocalDateTime.now())
-					.updatedAt(LocalDateTime.now())
+					.createdAt(null)
+					.updatedAt(null)
 					.build();
 
-			userRepository.save(john);
-			
-			User jane = new User(null, "Jane Doe", "jane@example.com", "123456",
-					LocalDateTime.now(), LocalDateTime.now(),
+			User jane = new User(
+					2L,
+					"Jane Doe",
+					"jane@example.com",
+					"123456",
+					null,
+					null,
 					new ArrayList<>());
+
+			User bobe = new User(
+					3L,
+					"bob Bone",
+					"jane@example.com",
+					"123456",
+					null,
+					null,
+					new ArrayList<>());
+
 			userRepository.save(jane);
+			userRepository.save(john);
+			userRepository.save(bobe);
 		};
 	}
 }

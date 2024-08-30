@@ -11,6 +11,6 @@ spring:
                               show-sql: true
                               database: mysql
                               hibernate: 
-                                             ddl-auto: create-drop
+                                             ddl-auto: update
 server:
                port: 8082                             

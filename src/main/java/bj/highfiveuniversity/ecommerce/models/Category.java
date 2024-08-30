@@ -1,4 +1,6 @@
 package bj.highfiveuniversity.ecommerce.models;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -7,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name="categories")
+@Table(name = "categories")
 public class Category {
                @Id
                @GeneratedValue
@@ -27,6 +31,23 @@ public class Category {
                @Column(nullable = false)
                private String name;
                @ManyToMany(mappedBy = "categories")
-                        private List<Product> products;
+               private List<Product> products;
 
+               @Column(nullable = false, updatable  = false)     
+               private LocalDateTime createdAt;   
+                  
+               private LocalDateTime updatedAt;    
+
+
+               @PrePersist
+               protected void onCreate() {
+                              createdAt = LocalDateTime.now();
+                              updatedAt = LocalDateTime.now();
+               }
+
+               @PreUpdate
+               protected void onUpdate() {
+                              updatedAt = LocalDateTime.now();
+               }
+               
 }
